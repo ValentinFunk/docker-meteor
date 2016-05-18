@@ -4,7 +4,7 @@ ENV NODE_VERSION 5.6.0
 ENV LC_ALL=POSIX
 
 RUN apt-get update && \
-    apt-get -y install locales build-essential libssl-dev libkrb5-dev gcc make ruby-full rubygems && \
+    apt-get -y install curl locales build-essential libssl-dev libkrb5-dev gcc make ruby-full rubygems && \
     gem install sass compass && \
     apt-get clean && \
     apt-get -y autoremove && \
@@ -23,7 +23,7 @@ RUN apt-get update && \
   	; do \
     gpg --keyserver ha.pool.sks-keyservers.net --recv-keys "$key"; \
   	done && \
-    cd /home/user && curl -SLO "https://nodejs.org/dist/v$NODE_VERSION/node-v$NODE_VERSION-linux-x64.tar.xz" \
+    mkdir -p /home/user && cd /home/user && curl -SLO "https://nodejs.org/dist/v$NODE_VERSION/node-v$NODE_VERSION-linux-x64.tar.xz" \
     && curl -SLO "https://nodejs.org/dist/v$NODE_VERSION/SHASUMS256.txt.asc" \
     && gpg --verify SHASUMS256.txt.asc \
     && grep " node-v$NODE_VERSION-linux-x64.tar.xz\$" SHASUMS256.txt.asc | sha256sum -c - \
@@ -36,6 +36,6 @@ RUN apt-get update && \
 ADD rootfs /
 
 # Preload some packages
-RUN cd /tmp/donwloadpkgs && meteor lint
+RUN cd /tmp/downloadpkgs && meteor lint
 
 EXPOSE 3000
