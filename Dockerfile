@@ -3,13 +3,13 @@ ENV NPM_CONFIG_LOGLEVEL info
 ENV NODE_VERSION 5.6.0
 ENV LC_ALL=POSIX
 
-RUN sudo apt-get update && \
-    sudo apt-get -y install locales build-essential libssl-dev libkrb5-dev gcc make ruby-full rubygems && \
-    sudo gem install sass compass && \
-    sudo apt-get clean && \
-    sudo apt-get -y autoremove && \
-    sudo apt-get -y clean && \
-    sudo rm -rf /var/lib/apt/lists/* && \
+RUN apt-get update && \
+    apt-get -y install locales build-essential libssl-dev libkrb5-dev gcc make ruby-full rubygems && \
+    gem install sass compass && \
+    apt-get clean && \
+    apt-get -y autoremove && \
+    apt-get -y clean && \
+    rm -rf /var/lib/apt/lists/* && \
 	set -ex \
   	&& for key in \
     9554F04D7259F04124DE6B476D5A82AC7E37093B \
@@ -27,11 +27,11 @@ RUN sudo apt-get update && \
     && curl -SLO "https://nodejs.org/dist/v$NODE_VERSION/SHASUMS256.txt.asc" \
     && gpg --verify SHASUMS256.txt.asc \
     && grep " node-v$NODE_VERSION-linux-x64.tar.xz\$" SHASUMS256.txt.asc | sha256sum -c - \
-    && sudo tar -xJf "node-v$NODE_VERSION-linux-x64.tar.xz" -C /usr/local --strip-components=1 \
+    && tar -xJf "node-v$NODE_VERSION-linux-x64.tar.xz" -C /usr/local --strip-components=1 \
     && rm "node-v$NODE_VERSION-linux-x64.tar.xz" SHASUMS256.txt.asc && \
     curl https://install.meteor.com/ | sh && \
-    sudo locale-gen en_US.UTF-8 && \
-	sudo localedef -i en_GB -f UTF-8 en_US.UTF
+    locale-gen en_US.UTF-8 && \
+	localedef -i en_GB -f UTF-8 en_US.UTF
 
 ADD rootfs /
 
